@@ -10,10 +10,10 @@ dotenv.config();
 
 //CONNECTING MONGODB
 
-// mongoose
-//   .connect(process.env.DB_CONNECT, {})
-//   .then(() => console.log("Database connected!"))
-//   .catch((err) => console.log(err));
+mongoose
+  .connect(process.env.DB_CONNECT, {})
+  .then(() => console.log("Database connected!"))
+  .catch((err) => console.log(err));
 
 app.use(express.json());
 
