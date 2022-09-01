@@ -21,8 +21,8 @@ app.use(cors());
 
 app.use(express.urlencoded({ extended: false }));
 
-// const Routes = require("./Routes/apiRoutes");
-// app.use("/", Routes);
+const Routes = require("./Routes/apiRoutes");
+app.use("/", Routes);
 
 app.listen(PORT, () => {
   console.log("server started and running on port 3222");
