@@ -1,0 +1,30 @@
+.navMainDiv{
+    width: 100%;
+    height: 50px;
+    box-shadow: 1px 4px 7px 3px lightgrey;
+    padding-top: 20px;
+    position: fixed;
+    top: 0px;
+    background-color: white;
+    z-index: 100000;
+}
+
+.HeadingName{
+    color: #A602C6;
+    font-size: 23px;
+    font-weight: 650;
+    margin-left: 20px;
+    margin-top: 1px;
+    margin-bottom: 10px;
+}
+
+.span1{
+    color: #303AFA;
+}
+
+.span2{
+    color: #FF860B;
+}
+.span3{
+    color: #027D41;
+}
