@@ -10,6 +10,7 @@ router.post("/registration", auth.register);
 router.post("/addPost", feeds.addPost);
 router.post("/addComment", feeds.addCommentToPost);
 router.get("/getAllPosts", feeds.getAllPosts);
+router.get("/getMyFeeds/:userId", feeds.getMyFeeds);
 
 router.post("/Follow", Follow.FollowSomeone);
 router.get("/MyFollowingListCount", Follow.MyFollowingListCount);

@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const FollowModel = require("../../models/FollowModel");
 const ObjectId = mongoose.Types.ObjectId;
 const BaseRepo = require("../Repository/baseRepository");
 const feeds = require("../../models/feeds");
@@ -10,6 +10,7 @@ module.exports = {
   addPost,
   addCommentToPost,
   getAllPosts,
+  getMyFeeds,
 };
 
 async function addPost(req, res, next) {
@@ -116,80 +117,163 @@ async function getAllPosts(req, res) {
       {
         $unwind: { path: "$feeds", preserveNullAndEmptyArrays: false },
       },
+      {
+        $unwind: { path: "$comments", preserveNullAndEmptyArrays: false },
+      },
 
+      {
+        $lookup: {
+          from: "users",
+          localField: "comments.senderId",
+          foreignField: "_id",
+          as: "send",
+        },
+      },
+      {
+        $unwind: { path: "$send", preserveNullAndEmptyArrays: false },
+      },
+
+      {
+        $group: {
+          _id: {
+            id: "$_id",
+            imageId: "$imageId",
+            caption: "$caption",
+            postedBy: "$feeds.name",
+          },
+          cooments: {
+            $push: {
+              senderId: "$comments.senderId",
+              text: "$comments.text",
+              commentBy: "$send.name",
+            },
+          },
+        },
+      },
+
+      {
+        $replaceRoot: {
+          newRoot: {
+            $mergeObjects: [
+              {
+                _id: "$_id.id",
+                imageId: "$_id.imageId",
+                caption: "$_id.caption",
+                postedBy: "$_id.postedBy",
+                comments: "$cooments",
+              },
+              {},
+            ],
+          },
+        },
+      },
+    ];
+
+    let data = await BaseRepo.baseAggregate(feeds, query);
+    return res.status(200).json({ data });
+  } catch (error) {
+    console.log("error", error);
+    return res.status(400).json({ error });
+  }
+}
+
+async function getMyFeeds(req, res) {
+  const id = ObjectId(req.params.userId);
+
+  try {
+    let query = [
+      {
+        $match: {
+          From_id: id,
+        },
+      },
+
+      {
+        $lookup: {
+          from: "feeds",
+          localField: "To_id",
+          foreignField: "userId",
+          as: "post",
+        },
+      },
+
+      {
+        $unwind: { path: "$post", preserveNullAndEmptyArrays: false },
+      },
+
+      {
+        $lookup: {
+          from: "users",
+          localField: "post.userId",
+          foreignField: "_id",
+          as: "user",
+        },
+      },
+
+      {
+        $unwind: { path: "$user", preserveNullAndEmptyArrays: false },
+      },
+      {
+        $project: {
+          postedBy: "$user.name",
+          post: "$post",
+        },
+      },
       // {
       //   $lookup: {
       //     from: "users",
-      //     localField: "comments.senderId",
+      //     localField: "post.comments.senderId",
       //     foreignField: "_id",
       //     as: "send",
       //   },
       // },
 
       // {
-      //   $addFields: {
-      //     items: {
-      //       $map: {
-      //         input: { $zip: { inputs: ["$comments", "$send"] } },
+      //   $unwind: { path: "$send", preserveNullAndEmptyArrays: false },
+      // },
 
-      //         in: { $mergeObjects: "$$this" },
+      // {
+      //   $group: {
+      //     _id: {
+      //       id: "$_id",
+      //       imageId: "$imageId",
+      //       caption: "$caption",
+      //       postedBy: "$user.name",
+      //     },
+      //     cooments: {
+      //       $push: {
+      //         senderId: "$post.comments.senderId",
+      //         text: "$post.comments.text",
+      //         commentBy: "$send.name",
       //       },
       //     },
       //   },
       // },
 
       // {
-      //   $addFields: {
-      //     itemsNext: {
-      //       $map: {
-      //         input: { $zip: { inputs: ["$items.name", "$items.text"] } },
-
-      //         in: { $mergeObjects: "$$this" },
-      //       },
+      //   $replaceRoot: {
+      //     newRoot: {
+      //       $mergeObjects: [
+      //         {
+      //           _id: "$_id",
+      //           imageId: "$imageId",
+      //           caption: "$caption",
+      //           postedBy: "$user.name",
+      //           text: "$post.comments.text",
+      //           //senderName: "$send.name",
+      //         },
+      //         {},
+      //       ],
       //     },
       //   },
-      // },
-
-      //  comments: [
-      //     {
-      //       // itemsNext: 1,
-      //       name: "$items.name",
-      //       text: "$items.text",
-      //     },
-      //   ],
-
-      {
-        $project: {
-          _id: 1,
-          imageId: 1,
-          caption: 1,
-          postedBy: "$feeds.name",
-          // items: 1,
-          // senderName: "$items.name",
-          // text: "$items.text",
-          // comments: [
-          //   {
-          //     // itemsNext: 1,
-          //     name: "$items.name",
-          //     text: "$items.text",
-          //   },
-          // ],
-          comments: 1,
-          // commentBy: "$send.name",
-        },
-      },
-      // {
-      //   $unwind: { path: "$senderName", preserveNullAndEmptyArrays: false },
-      // },
-      // {
-      //   $unwind: { path: "$text", preserveNullAndEmptyArrays: false },
       // },
     ];
 
-    let data = await BaseRepo.baseAggregate(feeds, query);
-    return res.status(200).json({ data });
+    let List = await BaseRepo.baseAggregate(FollowModel, query);
+    console.log("here", List);
+    return res.status(200).json({ List });
   } catch (error) {
-    // console.log("error", error);
+    console.log("error", error);
     return res.status(400).json({ error });
   }
 }
