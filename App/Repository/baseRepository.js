@@ -86,7 +86,7 @@ function detailById(modal, _id, params) {
         }
 
         if(params.select){
-            entity.select(parms.select);
+            entity.select(params.select);
         }
 
         if (params.deepPopulate) {

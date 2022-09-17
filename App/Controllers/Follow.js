@@ -11,6 +11,7 @@ module.exports = {
   MyFollowersCount,
   MyFollowersList,
   Unfollow,
+  // Unfollow
 };
 
 async function FollowSomeone(req, res, next) {
@@ -29,9 +30,11 @@ async function FollowSomeone(req, res, next) {
 async function MyFollowingListCount(req, res) {
   const body = req.body;
 
+  const id = req.params.userId;
+
   try {
     const searchParams = {
-      From_id: body.From_id,
+      From_id: id,
     };
 
     const data = await BaseRepo.baseGetCount(FollowModel, searchParams);
@@ -47,21 +50,57 @@ async function MyFollowingListCount(req, res) {
 }
 
 async function MyFollowList(req, res) {
-  const id = ObjectId(req.params.userId);
-  console.log(id);
+  const body = req.body;
+  console.log("Body = ", body);
+  // const id = ObjectId(body.From_id);
+  try {
+    const List = await FollowModel.find({ From_id: body.From_id });
+    //   const data = await BaseRepo.baseDetailById(FollowModel,searchParams.select);
+    console.log("List=>", List);
+    //    console.log("data=>",data);
 
+    return res.status(200).json({ message: `Your Follow List is ` });
+  } catch (err) {
+    console.log("Error=>", err);
+    return res.status(400).json({ message: err });
+  }
+}
+
+async function MyFollowersCount(req, res) {
+  const id = req.params.userId;
+
+  try {
+    const searchParams = {
+      To_id: id,
+    };
+
+    const data = await BaseRepo.baseGetCount(FollowModel, searchParams);
+    console.log("Data Count =", data);
+
+    return res
+      .status(200)
+      .json({ message: `You are Followed by ${data}  persons ` });
+  } catch (err) {
+    console.log("Error=>", err);
+    return res.status(400).json({ message: err });
+  }
+}
+
+async function MyFollowersList(req, res) {
+  const id = ObjectId(req.params.userId);
+  console.log("id=>", id);
   try {
     let query = [
       {
         $match: {
-          From_id: id,
+          To_id: id,
         },
       },
 
       {
         $lookup: {
           from: "users",
-          localField: "To_id",
+          localField: "From_id",
           foreignField: "_id",
           as: "list",
         },
@@ -77,46 +116,12 @@ async function MyFollowList(req, res) {
         },
       },
     ];
-    // const List = await FollowModel.find({ From_id: body.From_id });
-    let List = await BaseRepo.baseAggregate(FollowModel, query);
-    console.log("here", List);
-    return res.status(200).json({ List });
-  } catch (err) {
-    console.log("Error=>", err);
-    return res.status(400).json({ message: err });
-  }
-}
 
-async function MyFollowersCount(req, res) {
-  const body = req.body;
+    // const List = await FollowModel.find({ To_id: body.To_id });
+    // console.log("List=>", List);
 
-  try {
-    const searchParams = {
-      To_id: body.To_id,
-    };
-
-    const data = await BaseRepo.baseGetCount(FollowModel, searchParams);
-    console.log("Data Count =", data);
-
-    return res
-      .status(200)
-      .json({ message: `You are Followed by ${data} no. of persons ` });
-  } catch (err) {
-    console.log("Error=>", err);
-    return res.status(400).json({ message: err });
-  }
-}
-
-async function MyFollowersList(req, res) {
-  const body = req.body;
-  console.log("Body = ", body);
-  // const id = ObjectId(body.From_id);
-  try {
-    const List = await FollowModel.find({ To_id: body.To_id });
-    //   const data = await BaseRepo.baseDetailById(FollowModel,searchParams.select);
+    const List = await BaseRepo.baseAggregate(FollowModel, query);
     console.log("List=>", List);
-    //    console.log("data=>",data);
-
     return res.status(200).json({
       message: `Your Followers List `,
       data: List,
@@ -128,9 +133,10 @@ async function MyFollowersList(req, res) {
 }
 
 async function Unfollow(req, res) {
-  const body = req.body;
+  const From_id = req.params.From_id;
+  const To_id = req.params.To_id;
   try {
-    await FollowModel.deleteOne({ From_id: body.From_id, To_id: body.To_id });
+    await FollowModel.deleteOne({ From_id: From_id, To_id: To_id });
 
     return res.status(200).json({ message: ` Unfollow Successfully` });
   } catch (err) {

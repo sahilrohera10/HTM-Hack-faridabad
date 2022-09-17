@@ -15,6 +15,8 @@ const {
 module.exports = {
   register,
   login,
+  updateProfile,
+  DeleteAccount
 };
 
 const userMetaFields = ["email", "phone"];
@@ -55,3 +57,49 @@ async function register(req, res, next) {
 }
 
 async function login(req, res, next) {}
+
+
+async function updateProfile(req,res){
+  const id = req.body.userId;
+  const data = {
+    name:req.body.name,
+    address:req.body.address,
+    role:req.body.role
+  }
+  const searchParams = {
+    _id:id
+  }
+try{
+
+ await BaseRepo.baseUpdate(user,searchParams,data)
+
+return res.status(200).json("Successfully updated")
+
+}catch(err){
+  console.log("Error => ",err);
+  return res.status(400).json({message:err});
+}
+
+}
+
+
+async function DeleteAccount(req,res){
+
+  const id = req.params.userId;
+  const searchParams = {
+    _id:id
+  }
+
+  try{
+     const userdata = await BaseRepo.baseDetail(user,{searchParams});
+     console.log("userdata=>",userdata.userMetaId);
+     await BaseRepo.baseDeleteById(user,id);
+     await BaseRepo.baseDeleteById(userMeta,userdata.userMetaId);
+     
+return res.status(400).json("Succesfully Deleted")
+  }catch(err){
+    console.log("Error=>",err);
+    return res.status(400).json({message:err});
+  }
+
+}

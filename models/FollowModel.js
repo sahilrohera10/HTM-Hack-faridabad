@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { ObjectId } = require("mongodb");
+const ObjectId = mongoose.Types.ObjectId;
 
 const FollowSchema = new mongoose.Schema({
   From_id: {
