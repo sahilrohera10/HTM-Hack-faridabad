@@ -61,11 +61,13 @@ async function addPost(req, res, next) {
         // 1MB or uploading different file type)
         return res.send(err);
       } else {
+        console.log("userName=>", req.body.userName);
         // productsData.update({ imageId: req.file.filename }, { where: { id: 2 } });
         const data = await feeds.create({
           imageId: req.file.filename,
           userId: ObjectId(req.body.userId),
           caption: req.body.caption,
+          userName: req.body.userName
         });
 
         console.log("data uploaded :", data);

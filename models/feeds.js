@@ -6,6 +6,9 @@ const feedsSchema = new mongoose.Schema({
     type: ObjectId,
     ref: "user",
   },
+  userName: {
+    type: String,
+  },
   imageId: {
     type: String,
   },
@@ -20,6 +23,9 @@ const feedsSchema = new mongoose.Schema({
         type: ObjectId,
         required: true,
         ref: "user",
+      },
+      senderName: {
+        type: String,
       },
       text: {
         type: String,
