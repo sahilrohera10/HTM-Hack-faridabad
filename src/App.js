@@ -1,14 +1,15 @@
 import "./App.css";
-import Banner from "./Components/Banner";
-import Content from "./Components/Content";
-import NavBar from "./Components/NavBar";
+import { BrowserRouter, Routes, Route, Router } from "react-router-dom";
+import LandingPage from "./Pages/LandingPage";
+import MainPage from "./Pages/Mainpage";
 
 function App() {
   return (
     <div>
-      <NavBar />
-      <Banner />
-      <Content />
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/feeds" element={<MainPage />} />
+      </Routes>
     </div>
   );
 }

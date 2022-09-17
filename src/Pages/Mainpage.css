@@ -1,0 +1,82 @@
+.backgroundImage{
+    /* background-attachment: fixed;
+    background-size: cover; */
+    /* position: relative; */
+    display: flex;
+    /* justify-content: space-evenly; */
+    width: 100%;
+    /* border: 1px solid black; */
+    /* min-height: 600px;
+    max-height: auto; */
+    margin-top: 100px;
+
+}
+
+.feeds{
+    width:38rem;
+    height: 43rem;
+    border: solid black;
+    /* justify-content: center; 
+    position: absolute;
+    top: 12%;
+    left: 15%; */
+     margin-left: 10rem; 
+     margin-top: 2rem;
+     /* margin: 2rem; */
+     backdrop-filter: blur(5px) saturate(180%);
+
+    background-color: rgb(178 160 134 / 8%);;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.125);
+}
+.namedetails{
+    display: flex;
+     /* justify-content: space-evenly;  */
+}
+.avatar{
+    margin-left: 10px;
+    margin-top: 7px;
+}
+.name{
+    font-weight: 600;
+    margin-left: 12px;
+}
+.follow{
+    margin-left: 20px;
+}
+.posts{
+   width: 24rem;
+   height: 27rem;
+   border: solid black;
+   margin-left: 7rem;
+   margin-top: 3rem;
+}
+.image{
+    width: 24rem ;
+    height: 27rem;
+}
+
+.channels{
+    width: 28rem;
+   min-height: 5rem;
+   max-height: auto;
+    border: solid black;
+ backdrop-filter: blur(5px) saturate(180%);
+
+    background-color: rgb(178 160 134 / 8%);
+    /* display: flex; */
+}
+
+.profile{
+    margin-top:5px;
+    margin-left:5px;
+    size: 20rem;
+   height: 27px;
+  
+}
+
+.mainCSS{
+
+    /* background-image: -webkit-linear-gradient(40deg,#fff 50%, #174b89 50%); */
+
+}
