@@ -27,45 +27,12 @@ export default function Banner() {
         <span></span>
         <span></span>
         <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <div className="mainBannerDiv">
-          <p className="bannerHeading">
-            Your identity is reason <br /> for pride not a reason <br /> to
-            hide.
-          </p>
-          <img
-            className="bannerImg"
-            src="https://img.freepik.com/free-vector/character-illustration-people-holding-lgbt-support-icons_53876-43104.jpg?w=2000"
-            alt=""
-          />
-        </div>
+        <img
+          src="https://friendkit.cssninja.io/assets/img/illustrations/characters/friends.svg"
+          alt=""
+        />
+
+        <p className="banner-content">OUT AND PROUD PRIDE</p>
       </div>
     </div>
   );
