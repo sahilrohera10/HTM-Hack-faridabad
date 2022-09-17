@@ -20,6 +20,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use(express.urlencoded({ extended: false }));
+app.use("/uploads", express.static("./ImgUploads"));
 
 const Routes = require("./Routes/apiRoutes");
 app.use("/", Routes);

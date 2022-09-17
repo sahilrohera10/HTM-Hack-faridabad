@@ -114,59 +114,59 @@ async function getAllPosts(req, res) {
         },
       },
 
-      {
-        $unwind: { path: "$feeds", preserveNullAndEmptyArrays: false },
-      },
-      {
-        $unwind: { path: "$comments", preserveNullAndEmptyArrays: false },
-      },
+      // {
+      //   $unwind: { path: "$feeds", preserveNullAndEmptyArrays: false },
+      // },
+      // {
+      //   $unwind: { path: "$comments", preserveNullAndEmptyArrays: false },
+      // },
 
-      {
-        $lookup: {
-          from: "users",
-          localField: "comments.senderId",
-          foreignField: "_id",
-          as: "send",
-        },
-      },
-      {
-        $unwind: { path: "$send", preserveNullAndEmptyArrays: false },
-      },
+      // {
+      //   $lookup: {
+      //     from: "users",
+      //     localField: "comments.senderId",
+      //     foreignField: "_id",
+      //     as: "send",
+      //   },
+      // },
+      // {
+      //   $unwind: { path: "$send", preserveNullAndEmptyArrays: false },
+      // },
 
-      {
-        $group: {
-          _id: {
-            id: "$_id",
-            imageId: "$imageId",
-            caption: "$caption",
-            postedBy: "$feeds.name",
-          },
-          cooments: {
-            $push: {
-              senderId: "$comments.senderId",
-              text: "$comments.text",
-              commentBy: "$send.name",
-            },
-          },
-        },
-      },
+      // {
+      //   $group: {
+      //     _id: {
+      //       id: "$_id",
+      //       imageId: "$imageId",
+      //       caption: "$caption",
+      //       postedBy: "$feeds.name",
+      //     },
+      //     cooments: {
+      //       $push: {
+      //         senderId: "$comments.senderId",
+      //         text: "$comments.text",
+      //         commentBy: "$send.name",
+      //       },
+      //     },
+      //   },
+      // },
 
-      {
-        $replaceRoot: {
-          newRoot: {
-            $mergeObjects: [
-              {
-                _id: "$_id.id",
-                imageId: "$_id.imageId",
-                caption: "$_id.caption",
-                postedBy: "$_id.postedBy",
-                comments: "$cooments",
-              },
-              {},
-            ],
-          },
-        },
-      },
+      // {
+      //   $replaceRoot: {
+      //     newRoot: {
+      //       $mergeObjects: [
+      //         {
+      //           _id: "$_id.id",
+      //           imageId: "$_id.imageId",
+      //           caption: "$_id.caption",
+      //           postedBy: "$_id.postedBy",
+      //           comments: "$cooments",
+      //         },
+      //         {},
+      //       ],
+      //     },
+      //   },
+      // },
     ];
 
     let data = await BaseRepo.baseAggregate(feeds, query);
