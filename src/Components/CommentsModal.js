@@ -3,16 +3,20 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
+import { flexbox } from "@mui/system";
 
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: 300,
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
+  display: flexbox,
+
+  //   justifyContent : center,
   p: 4,
 };
 
@@ -27,7 +31,7 @@ export default function CommentsModal({ comments }) {
       <Button
         style={{
           marginTop: "20px",
-          marginLeft: "400px",
+          marginLeft: "60px",
           border: "none",
           background: "none",
           cursor: "pointer",
@@ -42,13 +46,21 @@ export default function CommentsModal({ comments }) {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
+        <Box style={{ overflowY: "scroll" }} sx={style}>
+          {comments.map((data) => (
+            <>
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                <p>
+                  {" "}
+                  <span style={{ fontWeight: "600" }}>
+                    {" "}
+                    {data.senderName} :
+                  </span>{" "}
+                  {data.text}
+                </p>{" "}
+              </Typography>
+            </>
+          ))}
         </Box>
       </Modal>
     </div>

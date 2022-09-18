@@ -11,22 +11,35 @@ import Button from "@mui/material/Button";
 import profile from "../assets/profile.jpg";
 import NewNav from "../Components/NewNav";
 import CommentsModal from "../Components/CommentsModal";
+import CreateChannelModal from "../Components/CreateChannelModal";
 
-const feeds = [
-  {
-    name: "The Humsafar Trust",
-    text: "By creating safe, welcoming places for all, we can support LGBTQ young people in knowing they are accepted as they are.",
-    img: "/broken-image.jpg",
-  },
-  {
-    name: "The Humsafar Trust",
-    text: "By creating safe, welcoming places for all, we can support LGBTQ young people in knowing they are accepted as they are.",
-    img: "/broken-image.jpg",
-  },
+const color = [
+  "hwb(314deg 5% 57% / 21%)",
+  "rgb(246 27 27 / 21%);",
+  "#F3ABAA",
+  "#CBE7DF",
 ];
 
 export default function Mainpage() {
   const [feed, setFeed] = useState(null);
+
+  const channels = [
+    {
+      name: "RAINBOW LAKE",
+      text: " Everyone deserves to live a life without fear, to be able to express",
+    },
+    {
+      name: "RAINBOW LAKE",
+      text: " Everyone deserves to live a life without fear, to be able to express",
+    },
+  ];
+
+  const suggest = [
+    {
+      name: "RAINBOW LAKE",
+      text: " Everyone deserves to live a life without fear, to be able to express",
+    },
+  ];
 
   useEffect(() => {
     try {
@@ -46,75 +59,116 @@ export default function Mainpage() {
       <NewNav />
 
       <div className="backgroundImage">
-        <div style={{ display: "flex", flexDirection: "column" }}>
+        <div
+          style={{
+            position: "fixed",
+            top: "90%",
+            width: "150px",
+            height: "100px",
+          }}
+        >
+          <CreateChannelModal />
+          {/* <button
+            style={{
+              border: "none",
+              background: "#174B89",
+              padding: "10px",
+              color: "white",
+              borderRadius: "20px",
+              marginLeft: "15px",
+              cursor: "pointer",
+            }}
+          >
+            Create Channel <span style={{ fontSize: "20px" }}>+</span>
+          </button> */}
+        </div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            marginLeft: "50px",
+          }}
+        >
           {feed &&
-            feed.map((data) => (
-              <div className="feeds">
-                <div className="namedetails">
-                  <Avatar className="avatar" />
-                  <p className="name">{data.userId}</p>
-                  <Button
-                    variant="text"
-                    style={{
-                      marginLeft: "15rem",
-                      marginTop: "1rem",
-                    }}
-                  >
-                    FOLLOW +
-                  </Button>
-                </div>
-                <div>
-                  <p style={{ marginLeft: "20px" }}> {data.caption}</p>
-                </div>
-                <div className="posts">
-                  <img
-                    className="image"
-                    src={`http://localhost:3222/uploads/${data.imageId}`}
-                    alt=""
-                  />
-                </div>
+            feed.map((data, index) => (
+              <>
                 <div
-                  style={{
-                    display: "flex",
-                    border: "1px solid black",
-                    borderRadius: "20px",
-                    width: "350px",
-                    marginLeft: "130px",
-                    height: "60px",
-                    marginTop: "20px",
-                  }}
+                  className="feeds"
+                  style={{ backgroundColor: color[index] }}
                 >
-                  <input
+                  <div className="posts">
+                    <img
+                      className="image"
+                      src={`http://localhost:3222/uploads/${data.imageId}`}
+                      alt=""
+                    />
+                  </div>
+                  <div
                     style={{
-                      width: "350px",
-                      height: "50px",
-                      // marginTop: "20px",
-                      // marginLeft: "125px",
-                      borderRadius: "20px",
-                      border: "none",
-                    }}
-                    placeholder=" Your Comment...."
-                    type="text"
-                  />
-                  <button
-                    style={{
-                      width: "70px",
-                      height: "30px",
-                      marginTop: "15px",
-                      marginRight: "10px",
+                      marginLeft: "20px",
+                      marginTop: "10px",
+                      width: "300px",
                     }}
                   >
-                    Send
-                  </button>
-                </div>
+                    <div style={{ display: "flex" }}>
+                      <Avatar
+                        className="profile"
+                        alt=""
+                        src={profile}
+                        sx={{ width: 30, height: 30, marginTop: "28px" }}
+                      />
 
-                <CommentsModal comments={data.comments} />
-              </div>
+                      <p
+                        style={{
+                          fontSize: "25px",
+                          fontWeight: "600",
+                          marginLeft: "10px",
+                        }}
+                      >
+                        {data.userName}
+                      </p>
+                    </div>
+
+                    <p>{data.caption}</p>
+
+                    <div
+                      style={{
+                        display: "flex",
+                        border: "1px solid black",
+                        borderRadius: "20px",
+                        width: "300px",
+                        height: "40px",
+                        marginTop: "80px",
+                        background: "white",
+                      }}
+                    >
+                      <input
+                        className="comments"
+                        placeholder=" Your Comment...."
+                        type="text"
+                      />
+                      <button
+                        style={{
+                          width: "70px",
+                          height: "30px",
+                          marginTop: "5px",
+                          marginRight: "10px",
+                          borderRadius: "20px",
+                          border: "none",
+                        }}
+                      >
+                        Post
+                      </button>
+                    </div>
+                    <CommentsModal comments={data.comments} />
+                  </div>
+                </div>
+              </>
             ))}
         </div>
 
         {/* channels!!!!!! */}
-        <div style={{ marginLeft: "8rem" }}>
+        <div style={{ marginLeft: "5rem" }}>
           <div
             style={{
               display: "flex",
@@ -123,6 +177,34 @@ export default function Mainpage() {
               position: "fixed",
             }}
           >
+            <p>JOINED CHANNELS : </p>
+            {channels.map((d) => (
+              <div className="channels">
+                <div style={{ display: "flex" }}>
+                  <Avatar
+                    className="profile"
+                    alt=""
+                    src={profile}
+                    sx={{ width: 48, height: 48 }}
+                  />
+                  <h3 style={{ marginLeft: "27px", marginTop: "8px" }}>
+                    {d.name}
+                  </h3>
+                </div>
+                <p style={{ marginTop: "2px" }}>{d.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div
+          style={{
+            marginTop: "350px",
+            position: "fixed",
+            marginLeft: "1020px",
+          }}
+        >
+          <p>SUGGESTIONS TO JOIN :</p>
+          {suggest.map((d) => (
             <div className="channels">
               <div style={{ display: "flex" }}>
                 <Avatar
@@ -132,15 +214,12 @@ export default function Mainpage() {
                   sx={{ width: 48, height: 48 }}
                 />
                 <h3 style={{ marginLeft: "27px", marginTop: "8px" }}>
-                  RAINBOW LAKE
+                  {d.name}
                 </h3>
               </div>
-              <p style={{ marginTop: "2px" }}>
-                Everyone deserves to live a life without fear, to be able to
-                express
-              </p>
+              <p style={{ marginTop: "2px" }}>{d.text}</p>
             </div>
-          </div>
+          ))}
         </div>
       </div>
     </div>
