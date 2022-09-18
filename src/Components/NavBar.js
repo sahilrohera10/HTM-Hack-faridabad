@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
 import "./NavBar.css";
 
 export default function NavBar() {
@@ -7,9 +9,12 @@ export default function NavBar() {
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <div style={{ display: "flex" }}>
           <p className="HeadingName">HELLO</p>
-
-          <p className="navcontent">HOME</p>
-          <p className="navcontent">FEEDS</p>
+          <Link to="/">
+            <p className="navcontent">HOME</p>
+          </Link>
+          <Link to="feeds">
+            <p className="navcontent">FEEDS</p>
+          </Link>
           <p className="navcontent">FORUM</p>
         </div>
         <div style={{ display: "flex" }}>

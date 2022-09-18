@@ -6,10 +6,11 @@ import "./Mainpage.css";
 // import backgroundimage from "../../assets/backgroundimage.gif";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import post from "..//assets/post.png";
+// import post from "..//assets/post.png";
 // import Navbar from "../../Components/Navbar/Navbar";
 import profile from "../assets/profile.jpg";
 import NewNav from "../Components/NewNav";
+import CommentsModal from "../Components/CommentsModal";
 
 const feeds = [
   {
@@ -39,11 +40,6 @@ export default function Mainpage() {
       console.log(error);
     }
   }, []);
-  //     fetch("http://localhost:3222/getAllPosts")
-  //       .then((resp) => resp.json())
-  //       .then((data) => setFeed(data));
-  //     console.log(resp);
-  //   }, []);
 
   return (
     <div className="mainCSS">
@@ -60,7 +56,7 @@ export default function Mainpage() {
                   <Button
                     variant="text"
                     style={{
-                      marginLeft: "18rem",
+                      marginLeft: "15rem",
                       marginTop: "1rem",
                     }}
                   >
@@ -68,7 +64,7 @@ export default function Mainpage() {
                   </Button>
                 </div>
                 <div>
-                  <p> {data.caption}</p>
+                  <p style={{ marginLeft: "20px" }}> {data.caption}</p>
                 </div>
                 <div className="posts">
                   <img
@@ -77,6 +73,42 @@ export default function Mainpage() {
                     alt=""
                   />
                 </div>
+                <div
+                  style={{
+                    display: "flex",
+                    border: "1px solid black",
+                    borderRadius: "20px",
+                    width: "350px",
+                    marginLeft: "130px",
+                    height: "60px",
+                    marginTop: "20px",
+                  }}
+                >
+                  <input
+                    style={{
+                      width: "350px",
+                      height: "50px",
+                      // marginTop: "20px",
+                      // marginLeft: "125px",
+                      borderRadius: "20px",
+                      border: "none",
+                    }}
+                    placeholder=" Your Comment...."
+                    type="text"
+                  />
+                  <button
+                    style={{
+                      width: "70px",
+                      height: "30px",
+                      marginTop: "15px",
+                      marginRight: "10px",
+                    }}
+                  >
+                    Send
+                  </button>
+                </div>
+
+                <CommentsModal comments={data.comments} />
               </div>
             ))}
         </div>

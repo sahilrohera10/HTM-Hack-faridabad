@@ -14,7 +14,8 @@
 
 .feeds{
     width:38rem;
-    height: 43rem;
+    height: 47rem;
+
     border: solid black;
     /* justify-content: center; 
     position: absolute;
@@ -27,7 +28,7 @@
 
     background-color: rgb(178 160 134 / 8%);;
     border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.125);
+    border: 1px solid rgba(12, 12, 12, 0.125);
 }
 .namedetails{
     display: flex;
