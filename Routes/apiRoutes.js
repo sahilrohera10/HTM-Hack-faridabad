@@ -4,6 +4,8 @@ const feeds = require("../App/Controllers/feeds");
 const Follow = require("../App/Controllers/Follow");
 // const Follow = require('../App/Controllers/Follow')
 const Channel = require("../App/Controllers/channel");
+const payment = require("../App/Controllers/Payment");
+
 const { chain } = require("lodash");
 
 router.post("/registration", auth.register);
@@ -36,4 +38,7 @@ router.get("/GetJoinedChannels", Channel.GetJoinedChannels);
 router.delete("/DeleteChannel/:ChannelId", Channel.DeleteChannel);
 router.put("/UpdateChannel", Channel.UpdateChannel);
 router.post("/JoinChannel", Channel.JoinChannel);
+
+router.post("/initiatePayment", payment.initiatePayment);
+router.post("/verifyPayment", payment.verifyPayment);
 module.exports = router;
